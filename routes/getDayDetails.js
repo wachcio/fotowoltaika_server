@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// const path = require('path');
-
-// require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
-
-// const axios = require('axios').default;
 const dayjs = require('dayjs');
 const objectSupport = require('dayjs/plugin/objectSupport');
 dayjs.extend(objectSupport);
@@ -36,23 +31,24 @@ const getDayDetailsFromDatabase = ({ day, month, year }) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    if (
-      checkDate({
-        day: req.query.day,
-        month: req.query.month,
-        year: req.query.year,
-      })
-    ) {
-      res.status(404).json({ message: 'Provide wrong date.' });
-      return;
-    }
-    const details = await getDayDetailsFromDatabase({
-      day: req.query.day,
-      month: req.query.month,
-      year: req.query.year,
-    });
+    // if (
+    //   checkDate({
+    //     day: req.query.day,
+    //     month: req.query.month,
+    //     year: req.query.year,
+    //   })
+    // ) {
+    //   res.status(404).json({ message: 'Provide wrong date.' });
+    //   return;
+    // }
+    // const details = await getDayDetailsFromDatabase({
+    //   day: req.query.day,
+    //   month: req.query.month,
+    //   year: req.query.year,
+    // });
 
-    res.status(200).json(details); // send a json response
+    // res.status(200).json(details); // send a json response
+    res.status(200).json({ test: 'test' }); // send a json response
   } catch (e) {
     console.log(e); // console log the error so we can see it in the console
     res.sendStatus(500);

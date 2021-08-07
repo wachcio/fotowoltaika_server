@@ -12,18 +12,6 @@ const path = require('path');
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-// const axios = require('axios').default;
-// const mysql = require('mysql');
-
-// const connection = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   database: process.env.DB_NAME,
-// });
-// const dayjs = require('dayjs');
-// const _ = require('lodash');
-
 /**
  * Get port from environment and store in Express.
  */
@@ -44,6 +32,7 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+server.keepAliveTimeout = 30000;
 
 /**
  * Normalize a port into a number, string, or false.
