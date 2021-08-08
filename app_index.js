@@ -7,6 +7,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const getDayDetails = require('./routes/getDayDetails');
 const testEnv = require('./routes/testEnv');
+const inverterRealtimeData = require('./routes/inverterRealtimeData');
 
 const app = express();
 app.use(cors({ origin: '*' }));
@@ -23,5 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/getDayDetails', getDayDetails);
 app.use('/testenv', testEnv);
+app.use('/inverterRealtimeData', inverterRealtimeData);
 
 module.exports = app;

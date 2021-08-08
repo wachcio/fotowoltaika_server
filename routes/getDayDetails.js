@@ -47,10 +47,10 @@ router.get('/', async (req, res, next) => {
       year: req.query.year,
     });
 
-    res.status(200).json(details); // send a json response
-    // res.status(200).json({ test: 'test' }); // send a json response
+    res.status(200).json(details);
+    // res.status(200).json({ test: 'test' });
   } catch (e) {
-    console.log(e); // console log the error so we can see it in the console
+    console.log(e);
     res.sendStatus(500);
   }
 });
