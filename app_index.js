@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const getDayDetails = require('./routes/getDayDetails');
+const getDayDetails2 = require('./routes/getDayDetails2');
 const testEnv = require('./routes/testEnv');
 const inverterRealtimeData = require('./routes/inverterRealtimeData');
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/getDayDetails', getDayDetails);
+app.use('/getDayDetails2', getDayDetails2);
 app.use('/testenv', testEnv);
 app.use('/inverterRealtimeData', inverterRealtimeData);
 

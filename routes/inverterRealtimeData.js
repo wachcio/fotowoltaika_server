@@ -14,7 +14,8 @@ router.get('/CommonInverterData', async (req, res, next) => {
 
   axios
     .get(
-      `${process.env.PV_HOST}solar_api/v1/GetInverterRealtimeData.cgi?Scope=Device&DeviceId=1&DataCollection=CommonInverterData`,
+      `${process.env.API_HOST}inverterRealtimeData/CommonInverterData`,
+      // `${process.env.PV_HOST}solar_api/v1/GetInverterRealtimeData.cgi?Scope=Device&DeviceId=1&DataCollection=CommonInverterData`,
     )
     .then(async ({ data }) => {
       // handle success
