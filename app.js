@@ -4,12 +4,17 @@
  * Module dependencies.
  */
 
+// const resetENV = require('./helpers/resetENV');
+
+// resetENV();
+
 const app = require('./app_index');
 const debug = require('debug')('fotowoltaika-server:server');
 const http = require('http');
 
 const path = require('path');
 
+// require('dotenv').config();
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 /**

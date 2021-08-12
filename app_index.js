@@ -4,14 +4,17 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const rfs = require('rotating-file-stream'); // version 2.x
+const compression = require('compression');
 
 const indexRouter = require('./routes/index');
 const getDayDetails = require('./routes/getDayDetails');
-const getDayDetails2 = require('./routes/getDayDetails2');
 const testEnv = require('./routes/testEnv');
 const inverterRealtimeData = require('./routes/inverterRealtimeData');
 
 const app = express();
+// compress responses
+app.use(compression());
+
 app.use(cors({ origin: '*' }));
 
 app.set('view engine', 'pug');
@@ -30,7 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/getDayDetails', getDayDetails);
-app.use('/getDayDetails2', getDayDetails2);
 app.use('/testenv', testEnv);
 app.use('/inverterRealtimeData', inverterRealtimeData);
 
