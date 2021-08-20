@@ -3,9 +3,6 @@ const router = express.Router();
 const axios = require('axios');
 const dayjs = require('dayjs');
 const _ = require('lodash');
-// const path = require('path');
-
-//   require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 router.get('/StringsCurrentData', async (req, res, next) => {
   const correctDate = dayjs().format('DD.MM.YYYY');
@@ -62,25 +59,21 @@ router.get('/PowerRealSum', async (req, res, next) => {
     // 'Current_AC_Phase_2',
     // 'Current_AC_Phase_3',
     'PowerReal_PAC_Sum',
-    'EnergyReal_WAC_Sum_Produced',
+    // 'EnergyReal_WAC_Sum_Produced',
   ];
 
   const detailedData = {};
 
-  // const dateToFetch = '2021-08-17';
-  const dateToFetch = dayjs().format('YYYY-MM-DD');
-
-  // const compressData = [];
+  const dateToFetch = '2021-08-20';
+  // const dateToFetch = dayjs().format('YYYY-MM-DD');
 
   const getAPIURL = () => {
     const correctDate = dayjs(dateToFetch).format('DD.MM.YYYY');
-    let result = `${process.env.PV_HOST}solar_api/v1/GetArchiveData.cgi?Scope=System&Channel=PowerReal_PAC_Sum&Channel=EnergyReal_WAC_Sum_Produced&StartDate=${correctDate}&EndDate=${correctDate}`;
-    channels.map(e => {
-      // console.log(e);
+    let result = `${process.env.PV_HOST}solar_api/v1/GetArchiveData.cgi?Scope=System&StartDate=${correctDate}&EndDate=${correctDate}`;
 
+    channels.map(e => {
       result += `&Channel=${e}`;
     });
-    // console.log(result);
 
     return result;
   };
@@ -89,9 +82,6 @@ router.get('/PowerRealSum', async (req, res, next) => {
     // Hours, minutes and seconds
     const hrs = ~~(duration / 3600);
     const mins = ~~((duration % 3600) / 60);
-    // const secs = ~~duration % 60;
-
-    // Output like "1:01" or "4:03:59" or "123:03:59"
     let ret = '';
 
     if (hrs === 0) {
@@ -126,18 +116,15 @@ router.get('/PowerRealSum', async (req, res, next) => {
       // this.Current_AC_Phase_2 = '';
       // this.Current_AC_Phase_3 = '';
       this.PowerReal_PAC_Sum = 0;
-      this.EnergyReal_WAC_Sum_Produced = 0;
+      // this.EnergyReal_WAC_Sum_Produced = 0;
       // this.Power_String_1 = '';
       // this.Power_String_2 = '';
     }
 
     createResponseObject() {
-      // return `(${
-      //   this.PowerReal_PAC_Sum
-      // },${this.EnergyReal_WAC_Sum_Produced},'${this.dateString}')`;
       return {
         PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum).toFixed(),
-        EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
+        // EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
         Timestamp: this.dateString,
       };
     }
@@ -146,14 +133,6 @@ router.get('/PowerRealSum', async (req, res, next) => {
   axios
     .get(`${getAPIURL()}`)
     .then(async ({ data }) => {
-      // console.log(data);
-
-      // handle success
-      // console.log(data.Body.Data['inverter/1']);
-      // console.log('length', data.length);
-
-      // if (data.length > 0) {
-
       channels.map((el, i) => {
         detailedData[el] = {
           ...data.Body.Data['inverter/1'].Data[el].Values,
@@ -164,14 +143,9 @@ router.get('/PowerRealSum', async (req, res, next) => {
           fancyTimeFormat(key),
         );
       });
-      // console.log(detailedData);
-
-      // }
     })
     .then(() => {
       const archiveReadingsArray = [];
-
-      // console.log('detailed data', detailedData);
 
       for (const date in detailedData.PowerReal_PAC_Sum) {
         const reading = new ArchiveReading(date);
@@ -180,17 +154,14 @@ router.get('/PowerRealSum', async (req, res, next) => {
           detailedData.PowerReal_PAC_Sum[date] === undefined
             ? 0
             : detailedData.PowerReal_PAC_Sum[date];
-        reading.EnergyReal_WAC_Sum_Produced =
-          detailedData.EnergyReal_WAC_Sum_Produced[date] === undefined
-            ? 0
-            : detailedData.EnergyReal_WAC_Sum_Produced[date];
+        // reading.EnergyReal_WAC_Sum_Produced =
+        //   detailedData.EnergyReal_WAC_Sum_Produced[date] === undefined
+        //     ? 0
+        //     : detailedData.EnergyReal_WAC_Sum_Produced[date];
 
         archiveReadingsArray.push(reading);
       }
 
-      // const queryParamsList = archiveReadingsArray.map(reading => reading.createResponseObject());
-      // // console.log(queryParamsList);
-      // writeToDatabase(queryParamsList.join(','));
       res.json(archiveReadingsArray.map(reading => reading.createResponseObject()));
     })
     .catch(error => {
