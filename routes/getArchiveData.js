@@ -125,7 +125,7 @@ router.get('/PowerRealSum', async (req, res, next) => {
       return {
         PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum).toFixed(),
         // EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
-        Timestamp: this.dateString,
+        timestamp: this.dateString,
       };
     }
   }
