@@ -16,6 +16,20 @@ const _ = require('lodash');
 dayjs.tz.setDefault('Europe/Warsaw');
 
 router.get('/', async (req, res, next) => {
+  // console.log(
+  //   'Today:',
+  //   dayjs({
+  //     day: Number(req.query.day),
+  //     month: Number(req.query.month) - 1,
+  //     year: Number(req.query.year),
+  //   }).isToday(),
+  //   dayjs({
+  //     day: Number(req.query.day),
+  //     month: Number(req.query.month) - 1,
+  //     year: Number(req.query.year),
+  //   }).format('YYYY-MM-DD HH:mm'),
+  // );
+
   if (
     !dayjs({
       day: Number(req.query.day),
@@ -23,6 +37,7 @@ router.get('/', async (req, res, next) => {
       year: Number(req.query.year),
     }).isToday()
   ) {
+    // console.log('API');
     const connection = mysql.createConnection({
       connectionLimit: 1,
       host: process.env.DB_HOST,
@@ -73,6 +88,8 @@ router.get('/', async (req, res, next) => {
       res.sendStatus(500);
     }
   } else {
+    // console.log('Fronius');
+
     const channels = [
       // 'Current_DC_String_1',
       // 'Current_DC_String_2',
