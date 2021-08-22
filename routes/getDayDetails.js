@@ -59,6 +59,15 @@ router.get('/', async (req, res, next) => {
           if (error) throw error;
 
           connectionResult = results;
+
+          let sum = 0;
+
+          connectionResult.map(el => {
+            // console.log(el);
+            sum = sum + el.EnergyReal_WAC_Sum_Produced;
+            el.EnergyReal_WAC_Sum_Produced_Until_Now = sum.toFixed(0);
+          });
+
           return resolve();
         });
       });
@@ -103,7 +112,7 @@ router.get('/', async (req, res, next) => {
       // 'Current_AC_Phase_2',
       // 'Current_AC_Phase_3',
       'PowerReal_PAC_Sum',
-      // 'EnergyReal_WAC_Sum_Produced',
+      'EnergyReal_WAC_Sum_Produced',
     ];
 
     const detailedData = {};
@@ -160,7 +169,8 @@ router.get('/', async (req, res, next) => {
         // this.Current_AC_Phase_2 = '';
         // this.Current_AC_Phase_3 = '';
         this.PowerReal_PAC_Sum = 0;
-        // this.EnergyReal_WAC_Sum_Produced = 0;
+        this.EnergyReal_WAC_Sum_Produced = 0;
+        this.EnergyReal_WAC_Sum_Produced_Until_Now = 0;
         // this.Power_String_1 = '';
         // this.Power_String_2 = '';
       }
@@ -168,7 +178,11 @@ router.get('/', async (req, res, next) => {
       createResponseObject() {
         return {
           PowerReal_PAC_Sum: Number(this.PowerReal_PAC_Sum).toFixed(),
-          // EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
+          EnergyReal_WAC_Sum_Produced: Number(this.EnergyReal_WAC_Sum_Produced).toFixed(),
+          EnergyReal_WAC_Sum_Produced_Until_Now: Number(
+            this.EnergyReal_WAC_Sum_Produced_Until_Now,
+          ).toFixed(),
+
           timestamp: this.dateString,
         };
       }
@@ -198,13 +212,20 @@ router.get('/', async (req, res, next) => {
             detailedData.PowerReal_PAC_Sum[date] === undefined
               ? 0
               : detailedData.PowerReal_PAC_Sum[date];
-          // reading.EnergyReal_WAC_Sum_Produced =
-          //   detailedData.EnergyReal_WAC_Sum_Produced[date] === undefined
-          //     ? 0
-          //     : detailedData.EnergyReal_WAC_Sum_Produced[date];
+          reading.EnergyReal_WAC_Sum_Produced =
+            detailedData.EnergyReal_WAC_Sum_Produced[date] === undefined
+              ? 0
+              : detailedData.EnergyReal_WAC_Sum_Produced[date];
 
           archiveReadingsArray.push(reading);
         }
+        let sum = 0;
+
+        archiveReadingsArray.map(el => {
+          // console.log(el);
+          sum = sum + el.EnergyReal_WAC_Sum_Produced;
+          el.EnergyReal_WAC_Sum_Produced_Until_Now = sum;
+        });
 
         res.json(archiveReadingsArray.map(reading => reading.createResponseObject()));
       })
