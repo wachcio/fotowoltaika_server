@@ -20,4 +20,14 @@ const checkDate = ({ year, month, day }) => {
     }) < 0
   );
 };
-module.exports = checkDate;
+const checkYear = ({ year }) => {
+  return (
+    !dayjs({ year }).isValid() ||
+    !year ||
+    year < 2021 ||
+    dayjs(new Date()).diff({
+      year,
+    }) < 0
+  );
+};
+module.exports = { checkDate, checkYear };

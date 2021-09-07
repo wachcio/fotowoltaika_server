@@ -8,6 +8,8 @@ const compression = require('compression');
 
 const indexRouter = require('./routes/index');
 const getDayDetails = require('./routes/getDayDetails');
+const getMonthlyProduction = require('./routes/getMonthlyProduction');
+const getYearlyProduction = require('./routes/getYearlyProduction');
 // const testEnv = require('./routes/testEnv');
 const inverterRealtimeData = require('./routes/inverterRealtimeData');
 const getArchiveData = require('./routes/getArchiveData');
@@ -34,6 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/getDayDetails', getDayDetails);
+app.use('/getMonthlyProduction', getMonthlyProduction);
+app.use('/getYearlyProduction', getYearlyProduction);
 // app.use('/testenv', testEnv);
 app.use('/inverterRealtimeData', inverterRealtimeData);
 app.use('/getArchiveData', getArchiveData);

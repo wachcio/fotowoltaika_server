@@ -49,7 +49,7 @@ router.get('/', async (req, res, next) => {
     });
     let connectionResult;
 
-    const checkDate = require('../helpers/checkDate');
+    const { checkDate } = require('../helpers/checkDate');
 
     const getDayDetailsFromDatabase = ({ day, month, year }) => {
       return new Promise((resolve, reject) => {
