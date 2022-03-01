@@ -31,6 +31,7 @@ router.get('/', async (req, res, next) => {
   // console.log('API');
   const connection = mysql.createConnection({
     connectionLimit: 1,
+    connectTimeout: 60000,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
