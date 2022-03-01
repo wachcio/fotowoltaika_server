@@ -5,6 +5,11 @@ const dayjs = require('dayjs');
 const objectSupport = require('dayjs/plugin/objectSupport');
 dayjs.extend(objectSupport);
 const mysql = require('mysql');
+const path = require('path');
+// require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+console.log('dirname', path.join(__dirname, '..', '.env'));
+
+console.log('getDetail ENV:', process.env.PV_HOST);
 
 router.get('/', async (req, res, next) => {
   const connection = mysql.createConnection({

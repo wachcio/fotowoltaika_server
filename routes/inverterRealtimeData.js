@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
+console.log('env:', process.env.PV_HOST);
+
 router.get('/CommonInverterData', async (req, res, next) => {
   axios
     .get(

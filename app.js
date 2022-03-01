@@ -15,7 +15,8 @@ const http = require('http');
 const path = require('path');
 
 // require('dotenv').config();
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+// require('dotenv').config({ path: path.join(__dirname, '.env') });
+// console.log(require('dotenv').config());
 
 /**
  * Get port from environment and store in Express.
